@@ -25,7 +25,6 @@ using Microsoft.Phone.Scheduler;
 //settings - set colors
 //'about' page, links
 //review system
-//scheduled update
 
 namespace CalendarTile
 {
@@ -42,13 +41,14 @@ namespace CalendarTile
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
-            //Loaded += MainPage_Loaded;
+            Loaded += MainPage_Loaded;
         }
 
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             //CreateImage();
             //UpdateTileData(); 
+            StartPeriodicAgent();
         }
 
         private void PlaceTileButton_Click(object sender, RoutedEventArgs e)
@@ -56,7 +56,6 @@ namespace CalendarTile
             CreateImage();
             UpdateTileData(); 
             PutTileOnHomeScreen();
-            StartPeriodicAgent();
         }
 
         private void CreateImage()

@@ -2,6 +2,8 @@
 using System.Windows;
 using Microsoft.Phone.Scheduler;
 using System.Windows.Media;
+using Microsoft.Phone.Shell;
+using System;
 
 namespace CalendarTileScheduledTaskAgent
 {
@@ -40,11 +42,27 @@ namespace CalendarTileScheduledTaskAgent
         /// </remarks>
         protected override void OnInvoke(ScheduledTask task)
         {
-            var renderer = new CalendarRenderer();
-            renderer.DrawCalendar(336, 336, Colors.White, Colors.Black, (Color)Application.Current.Resources["PhoneAccentColor"], 20, "calendar.png");
-            renderer.DrawCalendar(691, 336, Colors.White, Colors.Black, (Color)Application.Current.Resources["PhoneAccentColor"], 20, "calendar-wide.png");
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                var renderer = new CalendarRenderer();
+                renderer.DrawCalendar(336, 336, Colors.White, Colors.Black, (Color)Application.Current.Resources["PhoneAccentColor"], 20, "calendar.png");
+                renderer.DrawCalendar(691, 336, Colors.White, Colors.Black, (Color)Application.Current.Resources["PhoneAccentColor"], 20, "calendar-wide.png");
+                var tiles = ShellTile.ActiveTiles;
+                foreach (var tile in tiles)
+                {
+                    tile.Update(GetTileData());
+                }
+                NotifyComplete();
+            });
+        }
 
-            NotifyComplete();
+        private ShellTileData GetTileData()
+        {
+            var data = new FlipTileData();
+            data.BackgroundImage = new Uri(@"isostore:/Shared/ShellContent/calendar.png");
+            data.WideBackgroundImage = new Uri(@"isostore:/Shared/ShellContent/calendar-wide.png");
+            data.Title = DateTime.Now.ToString("MMMM");
+            return data;
         }
     }
 }
