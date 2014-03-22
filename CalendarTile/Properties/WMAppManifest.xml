@@ -2,7 +2,7 @@
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
   <App xmlns="" ProductID="{ce2e0079-5c9b-40d4-abee-3e3eec45dbe3}" Title="Calendar Tile" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="CalendarTile author" Description="Put a live tile with this month's calendar on your home screen." Publisher="CalendarTile" PublisherID="{285465d1-6381-48bc-8cac-81fee7564215}">
-    <IconPath IsRelative="true" IsResource="false">app-icon.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">Assets\app-icon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
@@ -19,7 +19,7 @@
     <Tokens>
       <PrimaryToken TokenID="CalendarTileToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">small.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\small.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
           <Title>CalendarTile</Title>
