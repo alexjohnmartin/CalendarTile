@@ -12,25 +12,15 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-//http://writeablebitmapex.codeplex.com/
-//http://code.msdn.microsoft.com/wpapps/Render-text-on-bitmap-fff2b406
-
-//TODO
-//settings - set colors
-//'about' page, links
-//review system
-//scheduled update
-//translations
-
-namespace CalendarTile
+namespace CalendarTileScheduledTaskAgent
 {
-    internal class CalendarRenderer
+    public class CalendarRenderer
     {
         private const int margin = 10;
         private const int marginBottom = 60;
         private const int textmargin = 5;
 
-        internal void DrawCalendar(int width, int height, Color color, Color alternateColor, Color backgroundColor, int fontSize, string filename)
+        public void DrawCalendar(int width, int height, Color color, Color alternateColor, Color backgroundColor, int fontSize, string filename)
         {
             var now = DateTime.Now;
             
@@ -99,17 +89,6 @@ namespace CalendarTile
                     isostream.Close();
                 }
             }
-
-            ////put calendar image in media library
-            //using (IsolatedStorageFile iso = IsolatedStorageFile.GetUserStoreForApplication())
-            //{
-            //    using (IsolatedStorageFileStream fileStream = iso.OpenFile(strImageName, FileMode.Open, FileAccess.Read))
-            //    {
-            //        MediaLibrary mediaLibrary = new MediaLibrary();
-            //        Picture pic = mediaLibrary.SavePicture(filename, fileStream);
-            //        fileStream.Close();
-            //    }
-            //}
         }
 
         private Coordinates GetDateCoords(DateTime date, int cellWidth, int cellHeight)
@@ -125,25 +104,8 @@ namespace CalendarTile
 
         private string GetDayOfWeekAbbreviation(DayOfWeek dow)
         {
-            switch (dow)
-            {
-                case DayOfWeek.Sunday:
-                    return "su";
-                case DayOfWeek.Monday:
-                    return "mo";
-                case DayOfWeek.Tuesday:
-                    return "tu";
-                case DayOfWeek.Wednesday:
-                    return "we";
-                case DayOfWeek.Thursday:
-                    return "th";
-                case DayOfWeek.Friday:
-                    return "fr";
-                case DayOfWeek.Saturday:
-                    return "sa";
-                default:
-                    return string.Empty;
-            }
+            var sunday = new DateTime(2014, 3, 2);
+            return sunday.AddDays(dow.GetHashCode()).ToString("ddd"); 
         }
     }
 
