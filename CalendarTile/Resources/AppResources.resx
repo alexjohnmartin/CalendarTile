@@ -170,4 +170,7 @@
   <data name="ThemeColor" xml:space="preserve">
     <value>theme color</value>
   </data>
+  <data name="AboutDescription" xml:space="preserve">
+    <value>Put a live tile on your home screen with this month's calendar. Customize the colors to suit your phone.</value>
+  </data>
 </root>

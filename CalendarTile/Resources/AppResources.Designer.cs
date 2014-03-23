@@ -97,6 +97,15 @@ namespace CalendarTile.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Put a live tile on your home screen with this month&apos;s calendar. Customize the colors to suit your phone..
+        /// </summary>
+        public static string AboutDescription {
+            get {
+                return ResourceManager.GetString("AboutDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
         public static string AboutHeader {
