@@ -1,0 +1,18 @@
+Put this month's calendar on your home screen as a live tile. 
+
+Customize the colors to suit your phone. 
+
+This calendar will automatically highlight today's date and update to the current month. 
+
+=====================================
+Update - highlighting today's date.
+Update - added description to the About page.
+
+
+
+
+(keywords)
+calendar
+date
+tile
+home
