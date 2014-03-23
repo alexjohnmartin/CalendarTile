@@ -137,4 +137,19 @@
   <data name="PlaceTileButton" xml:space="preserve">
     <value>Place tile on home screen</value>
   </data>
+  <data name="ColorPickerTitle" xml:space="preserve">
+    <value>Pick a color</value>
+  </data>
+  <data name="SettingsPrimaryColor" xml:space="preserve">
+    <value>Color of calendar</value>
+  </data>
+  <data name="SettingsSecondaryColor" xml:space="preserve">
+    <value>Color of today's date</value>
+  </data>
+  <data name="SettingsTileBackground" xml:space="preserve">
+    <value>Background color</value>
+  </data>
+  <data name="ThemeColor" xml:space="preserve">
+    <value>theme color</value>
+  </data>
 </root>

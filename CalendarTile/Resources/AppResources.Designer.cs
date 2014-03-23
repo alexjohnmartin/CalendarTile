@@ -88,6 +88,15 @@ namespace CalendarTile.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pick a color.
+        /// </summary>
+        public static string ColorPickerTitle {
+            get {
+                return ResourceManager.GetString("ColorPickerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Place tile on home screen.
         /// </summary>
         public static string PlaceTileButton {
@@ -111,6 +120,42 @@ namespace CalendarTile.Resources {
         public static string ResourceLanguage {
             get {
                 return ResourceManager.GetString("ResourceLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color of calendar.
+        /// </summary>
+        public static string SettingsPrimaryColor {
+            get {
+                return ResourceManager.GetString("SettingsPrimaryColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color of today&apos;s date.
+        /// </summary>
+        public static string SettingsSecondaryColor {
+            get {
+                return ResourceManager.GetString("SettingsSecondaryColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Background color.
+        /// </summary>
+        public static string SettingsTileBackground {
+            get {
+                return ResourceManager.GetString("SettingsTileBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to theme color.
+        /// </summary>
+        public static string ThemeColor {
+            get {
+                return ResourceManager.GetString("ThemeColor", resourceCulture);
             }
         }
     }

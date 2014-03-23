@@ -11,6 +11,8 @@ using CalendarTile.Resources;
 using System.Windows.Media;
 using CalendarTileScheduledTaskAgent;
 using Microsoft.Phone.Scheduler;
+using System.IO.IsolatedStorage;
+using System.Globalization;
 
 //drawing on a writeable bitmap - toolkit with extension methods for WriteableBitmap
 //http://writeablebitmapex.codeplex.com/
@@ -42,13 +44,73 @@ namespace CalendarTile
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
             Loaded += MainPage_Loaded;
+
+            DefaultTheColorSettings();
+            UpdateColorSettingControls();
         }
 
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            //CreateImage();
-            //UpdateTileData(); 
+            CreateImage();
+            UpdateTileData();
             StartPeriodicAgent();
+
+            var tiles = ShellTile.ActiveTiles;
+            PlaceTileButton.Visibility = (tiles.Count() < 2) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            string a = string.Empty;
+            string r = string.Empty;
+            string g = string.Empty;
+            string b = string.Empty;
+            string update = string.Empty;
+            if (NavigationContext.QueryString.TryGetValue("a", out a) &&
+                NavigationContext.QueryString.TryGetValue("r", out r) &&
+                NavigationContext.QueryString.TryGetValue("g", out g) &&
+                NavigationContext.QueryString.TryGetValue("b", out b) &&
+                NavigationContext.QueryString.TryGetValue("update", out update))
+            {
+                var color = Color.FromArgb(byte.Parse(a, NumberStyles.HexNumber), 
+                                           byte.Parse(r, NumberStyles.HexNumber), 
+                                           byte.Parse(g, NumberStyles.HexNumber), 
+                                           byte.Parse(b, NumberStyles.HexNumber));
+                switch (update)
+                {
+                    case "primary":
+                        IsolatedStorageSettings.ApplicationSettings["PrimaryColor"] = color;
+                        PrimaryColorRectangle.Fill = new SolidColorBrush(color);
+                        break;
+                    case "secondary":
+                        IsolatedStorageSettings.ApplicationSettings["SecondaryColor"] = color;
+                        SecondaryColorRectangle.Fill = new SolidColorBrush(color);
+                        break;
+                    case "background":
+                        IsolatedStorageSettings.ApplicationSettings["BackgroundColor"] = color;
+                        BackgroundColorRectangle.Fill = new SolidColorBrush(color);
+                        break;
+                }
+                IsolatedStorageSettings.ApplicationSettings.Save(); 
+            }
+        }
+
+        private void DefaultTheColorSettings()
+        {
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("BackgroundColor"))
+            {
+                IsolatedStorageSettings.ApplicationSettings.Add("PrimaryColor", Colors.White);
+                IsolatedStorageSettings.ApplicationSettings.Add("SecondaryColor", Colors.Black);
+                IsolatedStorageSettings.ApplicationSettings.Add("BackgroundColor", (Color)Application.Current.Resources["PhoneAccentColor"]);
+                IsolatedStorageSettings.ApplicationSettings.Save(); 
+            }
+        }
+
+        private void UpdateColorSettingControls()
+        {
+            PrimaryColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["PrimaryColor"]);
+            SecondaryColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["SecondaryColor"]);
+            BackgroundColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["BackgroundColor"]);
         }
 
         private void PlaceTileButton_Click(object sender, RoutedEventArgs e)
@@ -61,8 +123,11 @@ namespace CalendarTile
         private void CreateImage()
         {
             var renderer = new CalendarRenderer();
-            renderer.DrawCalendar(336, 336, Colors.White, Colors.Black, (Color)Application.Current.Resources["PhoneAccentColor"], 20, "calendar.png");
-            renderer.DrawCalendar(691, 336, Colors.White, Colors.Black, (Color)Application.Current.Resources["PhoneAccentColor"], 20, "calendar-wide.png");
+            var primarycolor = (Color)IsolatedStorageSettings.ApplicationSettings["PrimaryColor"];
+            var secondarycolor = (Color)IsolatedStorageSettings.ApplicationSettings["SecondaryColor"];
+            var backgorundcolor = (Color)IsolatedStorageSettings.ApplicationSettings["BackgroundColor"];
+            renderer.DrawCalendar(336, 336, primarycolor, secondarycolor, backgorundcolor, 20, "calendar.png");
+            renderer.DrawCalendar(691, 336, primarycolor, secondarycolor, backgorundcolor, 20, "calendar-wide.png");
         }
 
         private void UpdateTileData()
@@ -152,6 +217,21 @@ namespace CalendarTile
             catch (Exception)
             {
             }
+        }
+
+        private void ChangeBackgroundButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=background", UriKind.Relative));
+        }
+
+        private void ChangePrimaryColorButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=primary", UriKind.Relative));
+        }
+
+        private void ChangeSecondaryColorButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=secondary", UriKind.Relative));
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Phone.Scheduler;
 using System.Windows.Media;
 using Microsoft.Phone.Shell;
 using System;
+using System.IO.IsolatedStorage;
 
 namespace CalendarTileScheduledTaskAgent
 {
@@ -44,9 +45,12 @@ namespace CalendarTileScheduledTaskAgent
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                var renderer = new CalendarRenderer();
-                renderer.DrawCalendar(336, 336, Colors.White, Colors.Black, (Color)Application.Current.Resources["PhoneAccentColor"], 20, "calendar.png");
-                renderer.DrawCalendar(691, 336, Colors.White, Colors.Black, (Color)Application.Current.Resources["PhoneAccentColor"], 20, "calendar-wide.png");
+                var renderer = new CalendarRenderer(); 
+                var primarycolor = (Color)IsolatedStorageSettings.ApplicationSettings["PrimaryColor"];
+                var secondarycolor = (Color)IsolatedStorageSettings.ApplicationSettings["SecondaryColor"];
+                var backgorundcolor = (Color)IsolatedStorageSettings.ApplicationSettings["BackgroundColor"];
+                renderer.DrawCalendar(336, 336, primarycolor, secondarycolor, backgorundcolor, 20, "calendar.png");
+                renderer.DrawCalendar(691, 336, primarycolor, secondarycolor, backgorundcolor, 20, "calendar-wide.png");
                 var tiles = ShellTile.ActiveTiles;
                 foreach (var tile in tiles)
                 {
