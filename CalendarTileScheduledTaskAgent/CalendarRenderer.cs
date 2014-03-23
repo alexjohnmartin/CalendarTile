@@ -51,7 +51,7 @@ namespace CalendarTileScheduledTaskAgent
 
             //highlight current day cell
             var coords = GetDateCoords(now, cellWidth, cellHeight);
-            bitmap.FillRectangle(coords.X, coords.Y, cellWidth, cellHeight, color);
+            bitmap.FillRectangle(coords.X, coords.Y, coords.X + cellWidth, coords.Y + cellHeight, color);
             bitmap.Invalidate();
 
             //days of the week
@@ -59,7 +59,7 @@ namespace CalendarTileScheduledTaskAgent
             foreach (var dow in (DayOfWeek[])Enum.GetValues(typeof(DayOfWeek)))
             {
                 int left = margin + textmargin + count * cellWidth;
-                bitmap.DrawText(GetDayOfWeekAbbreviation(dow), color, fontSize, left, margin + textmargin);
+                bitmap.DrawText(GetDayOfWeekAbbreviation(dow), color, fontSize, left + textmargin, margin + textmargin);
                 count++;
             }
 
@@ -69,7 +69,7 @@ namespace CalendarTileScheduledTaskAgent
                 var drawDate = new DateTime(now.Year, now.Month, d);
                 coords = GetDateCoords(drawDate, cellWidth, cellHeight);
                 var textColor = drawDate.Date == now.Date ? alternateColor : color;
-                bitmap.DrawText(d.ToString(CultureInfo.InvariantCulture), textColor, fontSize, coords.X, coords.Y);
+                bitmap.DrawText(d.ToString(CultureInfo.InvariantCulture), textColor, fontSize, coords.X + textmargin, coords.Y + textmargin);
             }
 
             bitmap.Invalidate();
@@ -99,7 +99,7 @@ namespace CalendarTileScheduledTaskAgent
             var cellX = dayCellNumber % 7;
             var cellY = dayCellNumber / 7 + 1;
 
-            return new Coordinates(margin*2 + cellWidth*cellX, margin*2 + cellHeight*cellY);
+            return new Coordinates(margin + cellWidth*cellX, margin + cellHeight*cellY);
         }
 
         private string GetDayOfWeekAbbreviation(DayOfWeek dow)
