@@ -61,6 +61,51 @@ namespace CalendarTile.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string AboutButtonEmail {
+            get {
+                return ResourceManager.GetString("AboutButtonEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review.
+        /// </summary>
+        public static string AboutButtonReview {
+            get {
+                return ResourceManager.GetString("AboutButtonReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Store.
+        /// </summary>
+        public static string AboutButtonStore {
+            get {
+                return ResourceManager.GetString("AboutButtonStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Twitter.
+        /// </summary>
+        public static string AboutButtonTwitter {
+            get {
+                return ResourceManager.GetString("AboutButtonTwitter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string AboutHeader {
+            get {
+                return ResourceManager.GetString("AboutHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to add.
         /// </summary>
         public static string AppBarButtonText {
@@ -120,6 +165,15 @@ namespace CalendarTile.Resources {
         public static string ResourceLanguage {
             get {
                 return ResourceManager.GetString("ResourceLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SettingsHeader {
+            get {
+                return ResourceManager.GetString("SettingsHeader", resourceCulture);
             }
         }
         

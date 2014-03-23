@@ -13,6 +13,7 @@ using CalendarTileScheduledTaskAgent;
 using Microsoft.Phone.Scheduler;
 using System.IO.IsolatedStorage;
 using System.Globalization;
+using Microsoft.Phone.Tasks;
 
 //drawing on a writeable bitmap - toolkit with extension methods for WriteableBitmap
 //http://writeablebitmapex.codeplex.com/
@@ -23,8 +24,10 @@ using System.Globalization;
 //scheduling a background task
 //http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh202941%28v=vs.105%29.aspx
 
+//windows theme colors
+//http://marcofranssen.nl/wp-content/uploads/2012/11/PhoneThemeColors.png
+
 //TODO
-//settings - set colors
 //'about' page, links
 //review system
 
@@ -95,22 +98,37 @@ namespace CalendarTile
             }
         }
 
-        private void DefaultTheColorSettings()
+        public void TwitterButton_Click(object sender, EventArgs e)
         {
-            if (!IsolatedStorageSettings.ApplicationSettings.Contains("BackgroundColor"))
+            var task = new WebBrowserTask
             {
-                IsolatedStorageSettings.ApplicationSettings.Add("PrimaryColor", Colors.White);
-                IsolatedStorageSettings.ApplicationSettings.Add("SecondaryColor", Colors.Black);
-                IsolatedStorageSettings.ApplicationSettings.Add("BackgroundColor", (Color)Application.Current.Resources["PhoneAccentColor"]);
-                IsolatedStorageSettings.ApplicationSettings.Save(); 
-            }
+                Uri = new Uri("https://twitter.com/AlexJohnMartin", UriKind.Absolute)
+            };
+            task.Show();
         }
 
-        private void UpdateColorSettingControls()
+        public void StoreButton_Click(object sender, EventArgs e)
         {
-            PrimaryColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["PrimaryColor"]);
-            SecondaryColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["SecondaryColor"]);
-            BackgroundColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["BackgroundColor"]);
+            var currentCulture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            var task = new WebBrowserTask
+            {
+                Uri = new Uri(string.Format("http://www.windowsphone.com/{0}/store/publishers?publisherId=nocturnal%2Btendencies&appId=63cb6767-4940-4fa1-be8c-a7f58e455c3b", currentCulture.Name), UriKind.Absolute)
+            };
+            task.Show();
+        }
+
+        public void ReviewButton_Click(object sender, EventArgs e)
+        {
+            //FeedbackHelper.Default.Reviewed();
+            var marketplace = new MarketplaceReviewTask();
+            marketplace.Show();
+        }
+
+        public void EmailButton_Click(object sender, EventArgs e)
+        {
+            var email = new EmailComposeTask();
+            email.Subject = "Feedback for the Calendar Tile application";
+            email.Show();
         }
 
         private void PlaceTileButton_Click(object sender, RoutedEventArgs e)
@@ -118,6 +136,21 @@ namespace CalendarTile
             CreateImage();
             UpdateTileData(); 
             PutTileOnHomeScreen();
+        }
+
+        private void ChangeBackgroundButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=background", UriKind.Relative));
+        }
+
+        private void ChangePrimaryColorButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=primary", UriKind.Relative));
+        }
+
+        private void ChangeSecondaryColorButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=secondary", UriKind.Relative));
         }
 
         private void CreateImage()
@@ -219,19 +252,22 @@ namespace CalendarTile
             }
         }
 
-        private void ChangeBackgroundButton_Click(object sender, RoutedEventArgs e)
+        private void DefaultTheColorSettings()
         {
-            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=background", UriKind.Relative));
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("BackgroundColor"))
+            {
+                IsolatedStorageSettings.ApplicationSettings.Add("PrimaryColor", Colors.White);
+                IsolatedStorageSettings.ApplicationSettings.Add("SecondaryColor", Colors.Black);
+                IsolatedStorageSettings.ApplicationSettings.Add("BackgroundColor", (Color)Application.Current.Resources["PhoneAccentColor"]);
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
         }
 
-        private void ChangePrimaryColorButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateColorSettingControls()
         {
-            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=primary", UriKind.Relative));
-        }
-
-        private void ChangeSecondaryColorButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=secondary", UriKind.Relative));
+            PrimaryColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["PrimaryColor"]);
+            SecondaryColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["SecondaryColor"]);
+            BackgroundColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["BackgroundColor"]);
         }
     }
 }

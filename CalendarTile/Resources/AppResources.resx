@@ -137,8 +137,26 @@
   <data name="PlaceTileButton" xml:space="preserve">
     <value>Place tile on home screen</value>
   </data>
+  <data name="AboutButtonEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="AboutButtonReview" xml:space="preserve">
+    <value>Review</value>
+  </data>
+  <data name="AboutButtonStore" xml:space="preserve">
+    <value>Store</value>
+  </data>
+  <data name="AboutButtonTwitter" xml:space="preserve">
+    <value>Twitter</value>
+  </data>
+  <data name="AboutHeader" xml:space="preserve">
+    <value>About</value>
+  </data>
   <data name="ColorPickerTitle" xml:space="preserve">
     <value>Pick a color</value>
+  </data>
+  <data name="SettingsHeader" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="SettingsPrimaryColor" xml:space="preserve">
     <value>Color of calendar</value>

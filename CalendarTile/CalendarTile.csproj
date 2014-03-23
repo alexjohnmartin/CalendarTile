@@ -128,6 +128,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\About\appbar.chat.png" />
+    <Content Include="Assets\About\appbar.message.smiley.png" />
+    <Content Include="Assets\About\appbar.store.png" />
+    <Content Include="Assets\About\feature.email.png" />
     <Content Include="Assets\app-icon.png" />
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\ApplicationIcon.png">

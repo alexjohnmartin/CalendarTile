@@ -9,9 +9,6 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Media;
 
-//windows theme colors
-//http://marcofranssen.nl/wp-content/uploads/2012/11/PhoneThemeColors.png
-
 namespace CalendarTile
 {
     public partial class ColorPage : PhoneApplicationPage
