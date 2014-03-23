@@ -70,7 +70,7 @@ namespace CalendarTile
                 NavigationContext.QueryString.TryGetValue("r", out r) &&
                 NavigationContext.QueryString.TryGetValue("g", out g) &&
                 NavigationContext.QueryString.TryGetValue("b", out b) &&
- -               NavigationContext.QueryString.TryGetValue("update", out update))
+                NavigationContext.QueryString.TryGetValue("update", out update))
             {
                 var color = Color.FromArgb(byte.Parse(a, NumberStyles.HexNumber), 
                                            byte.Parse(r, NumberStyles.HexNumber), 
