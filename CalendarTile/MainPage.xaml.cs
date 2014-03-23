@@ -14,6 +14,7 @@ using Microsoft.Phone.Scheduler;
 using System.IO.IsolatedStorage;
 using System.Globalization;
 using Microsoft.Phone.Tasks;
+using RateMyApp.Helpers;
 
 //drawing on a writeable bitmap - toolkit with extension methods for WriteableBitmap
 //http://writeablebitmapex.codeplex.com/
@@ -26,10 +27,6 @@ using Microsoft.Phone.Tasks;
 
 //windows theme colors
 //http://marcofranssen.nl/wp-content/uploads/2012/11/PhoneThemeColors.png
-
-//TODO
-//'about' page, links
-//review system
 
 namespace CalendarTile
 {
@@ -73,7 +70,7 @@ namespace CalendarTile
                 NavigationContext.QueryString.TryGetValue("r", out r) &&
                 NavigationContext.QueryString.TryGetValue("g", out g) &&
                 NavigationContext.QueryString.TryGetValue("b", out b) &&
-                NavigationContext.QueryString.TryGetValue("update", out update))
+ -               NavigationContext.QueryString.TryGetValue("update", out update))
             {
                 var color = Color.FromArgb(byte.Parse(a, NumberStyles.HexNumber), 
                                            byte.Parse(r, NumberStyles.HexNumber), 
@@ -119,7 +116,7 @@ namespace CalendarTile
 
         public void ReviewButton_Click(object sender, EventArgs e)
         {
-            //FeedbackHelper.Default.Reviewed();
+            FeedbackHelper.Default.Reviewed();
             var marketplace = new MarketplaceReviewTask();
             marketplace.Show();
         }
