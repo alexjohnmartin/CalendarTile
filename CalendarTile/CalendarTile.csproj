@@ -129,9 +129,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\About\appbar.chat.png" />
+    <Content Include="Assets\About\appbar.companioncube.png" />
+    <Content Include="Assets\About\appbar.email.png" />
+    <Content Include="Assets\About\appbar.marketplace.png" />
     <Content Include="Assets\About\appbar.message.smiley.png" />
-    <Content Include="Assets\About\appbar.store.png" />
-    <Content Include="Assets\About\feature.email.png" />
+    <Content Include="Assets\About\appbar.social.github.octocat.png" />
+    <Content Include="Assets\About\appbar.social.github.octocat.solid.png" />
+    <Content Include="Assets\About\appbar.social.linkedin.png" />
+    <Content Include="Assets\About\appbar.social.linkedin.variant.png" />
+    <Content Include="Assets\About\appbar.social.twitter.png" />
     <Content Include="Assets\app-icon.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
