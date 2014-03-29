@@ -4,11 +4,6 @@
   <App xmlns="" ProductID="{ce2e0079-5c9b-40d4-abee-3e3eec45dbe3}" Title="Calendar Tile" RuntimeType="Silverlight" Version="1.0.1.0" Genre="apps.normal" Author="CalendarTile author" Description="Put a live tile with this month's calendar on your home screen." Publisher="CalendarTile" PublisherID="{285465d1-6381-48bc-8cac-81fee7564215}">
     <IconPath IsRelative="true" IsResource="false">Assets\app-icon.png</IconPath>
     <Capabilities>
-      <Capability Name="ID_CAP_NETWORKING" />
-      <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
-      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
-      <Capability Name="ID_CAP_SENSORS" />
-      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
