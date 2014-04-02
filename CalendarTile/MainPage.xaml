@@ -52,7 +52,7 @@
                         <Rectangle Name="PrimaryColorRectangle" Fill="White" Height="50" Width="80"/>
                     </Button>
 
-                    <TextBlock Text="{Binding Path=LocalizedResources.SettingsPrimaryColor, Source={StaticResource LocalizedStrings}}"
+                    <TextBlock Text="{Binding Path=LocalizedResources.SettingsSecondaryColor, Source={StaticResource LocalizedStrings}}"
                                Style="{StaticResource PhoneTextNormalStyle}"
                                Grid.Row="3" Grid.Column="0" Margin="12,14,12,10"/>
                     <Button Name="ChangeSecondaryColorButton" Click="ChangeSecondaryColorButton_Click" Grid.Row="3" Grid.Column="1" Margin="0, 0, 0, 0" Height="60">

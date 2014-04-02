@@ -51,7 +51,7 @@
             </Button>
 
             <Button Name="BlackButton" Click="ColorButton_Click" 
-                    Grid.Row="0" Grid.Column="1" CommandParameter="#00000000"
+                    Grid.Row="0" Grid.Column="1" CommandParameter="#FF000000"
                     Margin="0, 0, 0, 0" Height="100" Width="100">
                 <Rectangle Fill="Black" Height="50" Width="50"/>
             </Button>

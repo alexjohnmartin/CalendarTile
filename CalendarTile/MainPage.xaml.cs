@@ -217,7 +217,6 @@ namespace CalendarTile
 
             periodicTask = new PeriodicTask(periodicTaskName);
             periodicTask.Description = "Update the calendar live-tile with today's calendar";
-
             // Place the call to Add in a try block in case the user has disabled agents.
             try
             {
