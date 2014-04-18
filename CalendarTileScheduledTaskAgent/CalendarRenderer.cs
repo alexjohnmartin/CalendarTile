@@ -25,7 +25,8 @@ namespace CalendarTileScheduledTaskAgent
             var now = DateTime.Now;
             
             var bitmap = new WriteableBitmap(width, height); 
-            bitmap.Clear(backgroundColor);
+            //bitmap.Clear(backgroundColor);
+            bitmap.Clear();
 
             //draw grid...
             int cellWidth = ((width - (margin * 2)) / 7);
@@ -85,7 +86,8 @@ namespace CalendarTileScheduledTaskAgent
             {
                 using (IsolatedStorageFileStream isostream = iso.CreateFile(strImageName))
                 {
-                    Extensions.SaveJpeg(bitmap, isostream, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
+                    //(bitmap, isostream, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
+                    WriteableBitmapExtensionsPng.Encode(bitmap, isostream);
                     isostream.Close();
                 }
             }
@@ -127,15 +129,15 @@ namespace CalendarTileScheduledTaskAgent
         {
             TextBlock tb = new TextBlock();
             tb.FontSize = fontSize;
-            tb.FontWeight = FontWeights.ExtraBold; 
-            tb.Foreground = new SolidColorBrush(color); 
+            tb.FontWeight = FontWeights.ExtraBold;
+            tb.Foreground = new SolidColorBrush(color);
             tb.Text = text;
 
             // TranslateTransform 
             TranslateTransform tf = new TranslateTransform();
             tf.X = x;
             tf.Y = y;
-            wbm.Render(tb, tf); 
+            wbm.Render(tb, tf);
         }
     }
 }

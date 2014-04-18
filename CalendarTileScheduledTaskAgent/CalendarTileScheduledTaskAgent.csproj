@@ -85,13 +85,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CalendarRenderer.cs" />
+    <Compile Include="PngExtension.cs" />
     <Compile Include="ScheduledAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="SharpZipLib.WindowsPhone7">
+      <HintPath>..\packages\SharpZipLib-WP7.0.86.0.518\lib\sl4-windowsphone71\SharpZipLib.WindowsPhone7.dll</HintPath>
+    </Reference>
     <Reference Include="WriteableBitmapExWinPhone">
       <HintPath>..\lib\WriteableBitmapExWinPhone.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
