@@ -25,9 +25,8 @@ namespace CalendarTileScheduledTaskAgent
             var now = DateTime.Now;
             
             var bitmap = new WriteableBitmap(width, height); 
-            //bitmap.Clear(backgroundColor);
-            bitmap.Clear();
-
+            bitmap.Clear(backgroundColor);
+            
             //draw grid...
             int cellWidth = ((width - (margin * 2)) / 7);
             int cellHeight = ((height - (margin + marginBottom)) / 7);

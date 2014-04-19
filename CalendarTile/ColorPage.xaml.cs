@@ -30,17 +30,8 @@ namespace CalendarTile
 
             var themeColor = (Color)Application.Current.Resources["PhoneAccentColor"];
             ThemeRectangle.Fill = new SolidColorBrush(themeColor);
-            ThemeButton.CommandParameter = "#" +
-                BitConverter.ToString(new[] { themeColor.A }) +
-                BitConverter.ToString(new[] { themeColor.R }) +
-                BitConverter.ToString(new[] { themeColor.G }) +
-                BitConverter.ToString(new[] { themeColor.B });
+            ThemeButton.CommandParameter = "#00000000";
         }
-
-        //private void ThemeButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    NavigationService.Navigate(new Uri("/MainPage.xaml?update=" + _update + "&color=theme", UriKind.Relative));
-        //}
 
         private void ColorButton_Click(object sender, RoutedEventArgs e)
         {
