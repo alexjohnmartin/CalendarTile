@@ -44,18 +44,20 @@
                 <ColumnDefinition Width="110"/>
             </Grid.ColumnDefinitions>
 
-            <Button Name="WhiteButton" Click="ColorButton_Click" 
-                    Grid.Row="0" Grid.Column="0" CommandParameter="#FFFFFFFF"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="White" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="Black" Height="80" Width="80" 
+                       Tag="#FFFFFFFF" Tap="ColorButton_Click"
+                       Grid.Row="0" Grid.Column="0" />
+            <Rectangle Fill="White" Height="78" Width="78" 
+                       Tag="#FFFFFFFF" Tap="ColorButton_Click"
+                       Grid.Row="0" Grid.Column="0" />
 
-            <Button Name="BlackButton" Click="ColorButton_Click" 
-                    Grid.Row="0" Grid.Column="1" CommandParameter="#FF000000"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="Black" Height="50" Width="50"/>
-            </Button>
-
+            <Rectangle Fill="White" Height="80" Width="80" 
+                       Tag="#FF000000" Tap="ColorButton_Click"
+                       Grid.Row="0" Grid.Column="1" />
+            <Rectangle Fill="Black" Height="78" Width="78" 
+                       Tag="#FF000000" Tap="ColorButton_Click"
+                       Grid.Row="0" Grid.Column="1" />
+            
             <Button Name="ThemeButton" Click="ColorButton_Click"
                     Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
                     Margin="0, 0, 0, 0" Height="100" Width="210">
@@ -66,125 +68,85 @@
                 </Grid>
             </Button>
 
-            <Button Name="Color1Button" Click="ColorButton_Click" 
-                    Grid.Row="1" Grid.Column="0" CommandParameter="#FFA4C400"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FFA4C400" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FFA4C400" Height="80" Width="80" 
+                       Tag="#FFA4C400" Tap="ColorButton_Click"
+                       Grid.Row="1" Grid.Column="0" />
 
-            <Button Name="Color2Button" Click="ColorButton_Click" 
-                    Grid.Row="1" Grid.Column="1" CommandParameter="#FF60A917"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF60A917" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF60A917" Height="80" Width="80" 
+                       Tag="#FF60A917" Tap="ColorButton_Click"
+                       Grid.Row="1" Grid.Column="1" />
 
-            <Button Name="Color3Button" Click="ColorButton_Click"
-                    Grid.Row="1" Grid.Column="2" CommandParameter="#FF008A00"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF008A00" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF008A00" Height="80" Width="80" 
+                       Tag="#FF008A00" Tap="ColorButton_Click"
+                       Grid.Row="1" Grid.Column="2" />
 
-            <Button Name="Color4Button" Click="ColorButton_Click" 
-                    Grid.Row="1" Grid.Column="3" CommandParameter="#FF00ABA9"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF00ABA9" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF00ABA9" Height="80" Width="80" 
+                       Tag="#FF00ABA9" Tap="ColorButton_Click"
+                       Grid.Row="1" Grid.Column="3" />
 
-            <Button Name="Color5Button" Click="ColorButton_Click" 
-                    Grid.Row="2" Grid.Column="0" CommandParameter="#FF1BA1E2"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF1BA1E2" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF1BA1E2" Height="80" Width="80" 
+                       Tag="#FF1BA1E2" Tap="ColorButton_Click"
+                       Grid.Row="2" Grid.Column="0" />
 
-            <Button Name="Color6Button" Click="ColorButton_Click" 
-                    Grid.Row="2" Grid.Column="1" CommandParameter="#FF0050EF"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF0050EF" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF0050EF" Height="80" Width="80" 
+                       Tag="#FF0050EF" Tap="ColorButton_Click"
+                       Grid.Row="2" Grid.Column="1" />
 
-            <Button Name="Color7Button" Click="ColorButton_Click"
-                    Grid.Row="2" Grid.Column="2" CommandParameter="#FF6A00FF"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF6A00FF" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF6A00FF" Height="80" Width="80" 
+                       Tag="#FF6A00FF" Tap="ColorButton_Click"
+                       Grid.Row="2" Grid.Column="2" />
 
-            <Button Name="Color8Button" Click="ColorButton_Click" 
-                    Grid.Row="2" Grid.Column="3" CommandParameter="#FFAA00FF"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FFAA00FF" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FFAA00FF" Height="80" Width="80" 
+                       Tag="#FFAA00FF" Tap="ColorButton_Click"
+                       Grid.Row="2" Grid.Column="3" />
 
-            <Button Name="Color9Button" Click="ColorButton_Click" 
-                    Grid.Row="3" Grid.Column="0" CommandParameter="#FFF472D0"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FFF472D0" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FFF472D0" Height="80" Width="80" 
+                       Tag="#FFF472D0" Tap="ColorButton_Click"
+                       Grid.Row="3" Grid.Column="0" />
 
-            <Button Name="Color10Button" Click="ColorButton_Click" 
-                    Grid.Row="3" Grid.Column="1" CommandParameter="#FFD80073"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FFD80073" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FFD80073" Height="80" Width="80" 
+                       Tag="#FFD80073" Tap="ColorButton_Click"
+                       Grid.Row="3" Grid.Column="1" />
 
-            <Button Name="Color11Button" Click="ColorButton_Click"
-                    Grid.Row="3" Grid.Column="2" CommandParameter="#FFA20025"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FFA20025" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FFA20025" Height="80" Width="80" 
+                       Tag="#FFA20025" Tap="ColorButton_Click"
+                       Grid.Row="3" Grid.Column="2" />
 
-            <Button Name="Color12Button" Click="ColorButton_Click" 
-                    Grid.Row="3" Grid.Column="3" CommandParameter="#FFE51400"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FFE51400" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FFE51400" Height="80" Width="80" 
+                       Tag="#FFE51400" Tap="ColorButton_Click"
+                       Grid.Row="3" Grid.Column="3" />
 
-            <Button Name="Color13Button" Click="ColorButton_Click" 
-                    Grid.Row="4" Grid.Column="0" CommandParameter="#FFFA6800"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FFFA6800" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FFFA6800" Height="80" Width="80" 
+                       Tag="#FFFA6800" Tap="ColorButton_Click"
+                       Grid.Row="4" Grid.Column="0" />
 
-            <Button Name="Color14Button" Click="ColorButton_Click" 
-                    Grid.Row="4" Grid.Column="1" CommandParameter="#FFF0A30A"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FFF0A30A" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FFF0A30A" Height="80" Width="80" 
+                       Tag="#FFF0A30A" Tap="ColorButton_Click"
+                       Grid.Row="4" Grid.Column="1" />
 
-            <Button Name="Color15Button" Click="ColorButton_Click"
-                    Grid.Row="4" Grid.Column="2" CommandParameter="#FFD8C100"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FFD8C100" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FFD8C100" Height="80" Width="80" 
+                       Tag="#FFD8C100" Tap="ColorButton_Click"
+                       Grid.Row="4" Grid.Column="2" />
 
-            <Button Name="Color16Button" Click="ColorButton_Click" 
-                    Grid.Row="4" Grid.Column="3" CommandParameter="#FF825A2C"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF825A2C" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF825A2C" Height="80" Width="80" 
+                       Tag="#FF825A2C" Tap="ColorButton_Click"
+                       Grid.Row="4" Grid.Column="3" />
 
-            <Button Name="Color17Button" Click="ColorButton_Click" 
-                    Grid.Row="5" Grid.Column="0" CommandParameter="#FF6D8764"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF6D8764" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF6D8764" Height="80" Width="80" 
+                       Tag="#FF6D8764" Tap="ColorButton_Click"
+                       Grid.Row="5" Grid.Column="0" />
 
-            <Button Name="Color18Button" Click="ColorButton_Click" 
-                    Grid.Row="5" Grid.Column="1" CommandParameter="#FF647687"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF647687" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF647687" Height="80" Width="80" 
+                       Tag="#FF647687" Tap="ColorButton_Click"
+                       Grid.Row="5" Grid.Column="1" />
 
-            <Button Name="Color19Button" Click="ColorButton_Click"
-                    Grid.Row="5" Grid.Column="2" CommandParameter="#FF76608A"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF76608A" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF76608A" Height="80" Width="80" 
+                       Tag="#FF76608A" Tap="ColorButton_Click"
+                       Grid.Row="5" Grid.Column="2" />
 
-            <Button Name="Color20Button" Click="ColorButton_Click" 
-                    Grid.Row="5" Grid.Column="3" CommandParameter="#FF7A3B3F"
-                    Margin="0, 0, 0, 0" Height="100" Width="100">
-                <Rectangle Fill="#FF7A3B3F" Height="50" Width="50"/>
-            </Button>
+            <Rectangle Fill="#FF7A3B3F" Height="80" Width="80" 
+                       Tag="#FF7A3B3F" Tap="ColorButton_Click"
+                       Grid.Row="5" Grid.Column="3" />
         </Grid>
     </Grid>
 
