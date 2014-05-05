@@ -228,14 +228,12 @@ namespace CalendarTile
             var dow = "0";
             if (!IsolatedStorageSettings.ApplicationSettings.Contains("FirstDayOfWeek"))
             {
-                MessageBox.Show("setting FirstDayOfWeek");
                 IsolatedStorageSettings.ApplicationSettings.Add("FirstDayOfWeek", dow);
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
             else
             {
                 dow = IsolatedStorageSettings.ApplicationSettings["FirstDayOfWeek"].ToString();
-                MessageBox.Show("getting FirstDayOfWeek - " + dow);
             }
 
             Dispatcher.BeginInvoke(() =>
