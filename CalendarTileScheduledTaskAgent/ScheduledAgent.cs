@@ -5,8 +5,6 @@ using System.Windows.Media;
 using Microsoft.Phone.Shell;
 using System;
 using System.IO.IsolatedStorage;
-using BugSense;
-using BugSense.Core.Model;
 
 namespace CalendarTileScheduledTaskAgent
 {
@@ -20,8 +18,7 @@ namespace CalendarTileScheduledTaskAgent
             // Subscribe to the managed exception handler
             Deployment.Current.Dispatcher.BeginInvoke(delegate
             {
-                BugSenseHandler.Instance.StartSession();
-                //Application.Current.UnhandledException += UnhandledException;
+                Application.Current.UnhandledException += UnhandledException;
             });
         }
 
@@ -48,7 +45,6 @@ namespace CalendarTileScheduledTaskAgent
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                BugSenseHandler.Instance.LeaveBreadCrumb("ScheduledAgent - on invoke");
                 var renderer = new CalendarRenderer();
                 Color primarycolor;
                 Color secondarycolor;
@@ -59,7 +55,6 @@ namespace CalendarTileScheduledTaskAgent
                 var tiles = ShellTile.ActiveTiles;
                 foreach (var tile in tiles)
                 {
-                    BugSenseHandler.Instance.LeaveBreadCrumb("ScheduledAgent - update tile");
                     tile.Update(GetTileData());
                 }
                 NotifyComplete();
