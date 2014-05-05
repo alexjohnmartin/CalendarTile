@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:ctrl="clr-namespace:RateMyApp.Controls;assembly=RateMyApp"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -18,51 +19,199 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <phone:Panorama Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}">
 
-            <!--Panorama item one-->
-            <phone:PanoramaItem Header="{Binding Path=LocalizedResources.SettingsHeader, Source={StaticResource LocalizedStrings}}">
-                <Grid>
+            <phone:PanoramaItem Header="{Binding Path=LocalizedResources.SettingsHeader, Source={StaticResource LocalizedStrings}}" Margin="-4,-40,0,0">
+                <Grid Margin="4,-40,0,12">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="80"/>
-                        <RowDefinition Height="50"/>
-                        <RowDefinition Height="50"/>
-                        <RowDefinition Height="50"/>
-                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="300"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
 
-                    <Button Name="PlaceTileButton" Click="PlaceTileButton_Click" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                        <TextBlock Text="{Binding Path=LocalizedResources.PlaceTileButton, Source={StaticResource LocalizedStrings}}"
-                                   Style="{StaticResource PhoneTextNormalStyle}" Margin="0"/>
+                    <Button Name="PlaceTileButton" Click="PlaceTileButton_Click" Grid.Row="0">
+                        <Grid Width="350">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="/Assets/About/Appbar.pin.png" Grid.Column="0"/>
+                            <TextBlock Text="{Binding Path=LocalizedResources.PlaceTileButton, Source={StaticResource LocalizedStrings}}"
+                                       Style="{StaticResource PhoneTextNormalStyle}" Margin="0" VerticalAlignment="Center" Grid.Column="1"/>
+                        </Grid>
                     </Button>
 
-                    <TextBlock Text="{Binding Path=LocalizedResources.SettingsTileBackground, Source={StaticResource LocalizedStrings}}"
-                               Style="{StaticResource PhoneTextNormalStyle}"
-                               Grid.Row="1" Grid.Column="0" Margin="12, 12"/>
-                    <Button Name="ChangeBackgroundButton" Click="ChangeBackgroundButton_Click" Grid.Row="1" Grid.Column="1" Margin="0, 0, 0, 0" Height="60">
-                        <Rectangle Name="BackgroundColorRectangle" Fill="White" Height="50" Width="80"/>
-                    </Button>
+                    <TextBlock Text="First day of week" 
+                       Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"
+                       Grid.Row="1" Margin="12,0,0,0"/>
+                    <toolkit:ListPicker
+                        IsEnabled="False"
+                        Name="FirstDowList"
+                        Margin="12,0,12,0"
+                        SelectedIndex="1"
+                        Grid.Row="2" Grid.Column="0" 
+                        SelectionChanged="FirstDowList_SelectionChanged">
+                        <toolkit:ListPickerItem Tag="6" Content="{Binding Path=LocalizedResources.DayOfWeekSaturday, Source={StaticResource LocalizedStrings}}"/>
+                        <toolkit:ListPickerItem Tag="0" Content="{Binding Path=LocalizedResources.DayOfWeekSunday, Source={StaticResource LocalizedStrings}}"/>
+                        <toolkit:ListPickerItem Tag="1" Content="{Binding Path=LocalizedResources.DayOfWeekMonday, Source={StaticResource LocalizedStrings}}"/>
+                    </toolkit:ListPicker>
 
-                    <TextBlock Text="{Binding Path=LocalizedResources.SettingsPrimaryColor, Source={StaticResource LocalizedStrings}}"
-                               Style="{StaticResource PhoneTextNormalStyle}"
-                               Grid.Row="2" Grid.Column="0" Margin="12,14,12,10"/>
-                    <Button Name="ChangePrimaryColorButton" Click="ChangePrimaryColorButton_Click" Grid.Row="2" Grid.Column="1" Margin="0, 0, 0, 0" Height="60">
-                        <Rectangle Name="PrimaryColorRectangle" Fill="White" Height="50" Width="80"/>
-                    </Button>
-
-                    <TextBlock Text="{Binding Path=LocalizedResources.SettingsSecondaryColor, Source={StaticResource LocalizedStrings}}"
-                               Style="{StaticResource PhoneTextNormalStyle}"
-                               Grid.Row="3" Grid.Column="0" Margin="12,14,12,10"/>
-                    <Button Name="ChangeSecondaryColorButton" Click="ChangeSecondaryColorButton_Click" Grid.Row="3" Grid.Column="1" Margin="0, 0, 0, 0" Height="60">
-                        <Rectangle Name="SecondaryColorRectangle" Fill="White" Height="50" Width="80"/>
-                    </Button>
+                    <Image Name="CalendarImage" Margin="18,18,18,0" Grid.Row="3" Grid.Column="0" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Grid>
             </phone:PanoramaItem>
 
-            <!--Panorama item two-->
-            <phone:PanoramaItem Header="{Binding Path=LocalizedResources.AboutHeader, Source={StaticResource LocalizedStrings}}">
+            <phone:PanoramaItem Header="{Binding Path=LocalizedResources.OtherAppsHeader, Source={StaticResource LocalizedStrings}}" Margin="-4,-40,0,0">
+                <ScrollViewer Grid.Row="1" Margin="4,-40,0,0">
+                    <Grid x:Name="OtherAppsPanel">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Button Grid.Row="0" Click="AppButton_Click" 
+                                HorizontalAlignment="Left" Width="420" 
+                                Tag="bb949009-c3c3-48d4-ac52-e6c3db0b52e3">
+                            <Grid Width="380">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="Assets/OtherApps/toonify.png" Grid.Column="0"/>
+                                <StackPanel Orientation="Vertical" Grid.Column="2" VerticalAlignment="Center">
+                                    <TextBlock Text="Toonify" Margin="0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
+                                    <TextBlock Text="Make comics with your camera phone" Margin="0,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+
+                        <Button Grid.Row="1" Click="AppButton_Click" 
+                                HorizontalAlignment="Left" Width="420" 
+                                Tag="48e02bca-5cac-4a3d-8be1-e5efd46e716e">
+                            <Grid Width="380">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="Assets/OtherApps/trail-mapper.png" Grid.Column="0"/>
+                                <StackPanel Orientation="Vertical" Grid.Column="2" VerticalAlignment="Center">
+                                    <TextBlock Text="Trail Mapper" Margin="0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap" />
+                                    <TextBlock Text="Record your favorite trails" Margin="0,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+
+                        <Button Grid.Row="2" Click="AppButton_Click" 
+                                HorizontalAlignment="Left" Width="420" 
+                                Tag="11581a6e-ef15-4146-a76d-ec5e7a69205c">
+                            <Grid Width="380">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="Assets/OtherApps/your-music-shuffled.png" Grid.Column="0"/>
+                                <StackPanel Orientation="Vertical" Grid.Column="2" VerticalAlignment="Center">
+                                    <TextBlock Text="Your Music Shuffled" Margin="0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap" />
+                                    <TextBlock Text="No-frills, no distractions music player" Margin="0,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+
+                        <!--<Button Grid.Row="3" Click="AppButton_Click" 
+                                HorizontalAlignment="Left" Width="420" 
+                                Tag="bc9186c4-d0b6-405a-80b8-35825803fe75">
+                            <Grid Width="380">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="Assets/OtherApps/calendar-tile.png" Grid.Column="0"/>
+                                <StackPanel Orientation="Vertical" Grid.Column="2" VerticalAlignment="Center">
+                                    <TextBlock Text="Calendar Tile" Margin="0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap" />
+                                    <TextBlock Text="Put a calendar on your home screen" Margin="0,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>-->
+
+                        <Button Grid.Row="4" Click="AppButton_Click" 
+                                HorizontalAlignment="Left" Width="420" 
+                                Tag="fd95ad37-68e5-4c6d-b73b-3240871bb1fc">
+                            <Grid Width="380">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="Assets/OtherApps/meet-me-here.png" Grid.Column="0"/>
+                                <StackPanel Orientation="Vertical" Grid.Column="2" VerticalAlignment="Center">
+                                    <TextBlock Text="Meet Me Here" Margin="0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap" />
+                                    <TextBlock Text="Send a map of your location to your friends" Margin="0,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </ScrollViewer>
+            </phone:PanoramaItem>
+
+            <phone:PanoramaItem Header="{Binding Path=LocalizedResources.AboutHeader, Source={StaticResource LocalizedStrings}}" Margin="0,-40,0,0">
+                <Grid x:Name="AboutPanel" Grid.Row="1" Margin="2,-36,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="200" />
+                        <RowDefinition Height="200" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{Binding Path=LocalizedResources.AboutDescription, Source={StaticResource LocalizedStrings}}"
+                               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                               TextWrapping="Wrap" Margin="12, 0, 0, 0"/>
+
+                    <TextBlock Name="VersionTextBox" Text="v1.0.0.0"
+                               Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                               TextWrapping="Wrap" Margin="12, 6, 0, 6"/>
+
+                    <Button Name="ReviewButton" Click="ReviewButton_Click" Background="OrangeRed" BorderThickness="0" Grid.Column="1" Grid.Row="2">
+                        <StackPanel>
+                            <Image Source="Assets/About/appbar.message.smiley.png" MaxHeight="120" />
+                            <TextBlock Text="{Binding Path=LocalizedResources.AboutButtonReview, Source={StaticResource LocalizedStrings}}" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Name="EmailButton" Click="EmailButton_Click" Background="Goldenrod" BorderThickness="0" Grid.Column="0" Grid.Row="2">
+                        <StackPanel>
+                            <Image Source="Assets/About/appbar.email.png" MaxHeight="120" />
+                            <TextBlock Text="{Binding Path=LocalizedResources.AboutButtonEmail, Source={StaticResource LocalizedStrings}}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--<Button Name="StoreButton" Click="StoreButton_Click" Background="Red" BorderThickness="0" Grid.Column="0" Grid.Row="3">
+                        <StackPanel>
+                            <Image Source="Assets/About/appbar.marketplace.png" MaxHeight="120" />
+                            <TextBlock Text="{Binding Path=LocalizedResources.AboutButtonStore, Source={StaticResource LocalizedStrings}}" />
+                        </StackPanel>
+                    </Button>-->
+
+                    <!--<Button Name="CreditsButton" Click="CreditsButton_Click" Background="Blue" BorderThickness="0" Grid.Column="1" Grid.Row="3">
+                        <StackPanel>
+                            <Image Source="Assets/About/appbar.companioncube.png" MaxHeight="120" />
+                            <TextBlock Text="{Binding Path=LocalizedResources.AboutButtonCredits, Source={StaticResource LocalizedStrings}}" />
+                        </StackPanel>
+                    </Button>-->
+                </Grid>
+            </phone:PanoramaItem>
+            
+            <!--<phone:PanoramaItem Header="{Binding Path=LocalizedResources.AboutHeader, Source={StaticResource LocalizedStrings}}">
                 <Grid x:Name="AboutPanel" Grid.Row="1" Margin="0,-40,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100" />
@@ -108,13 +257,13 @@
                         </StackPanel>
                     </Button>
                 </Grid>
-            </phone:PanoramaItem>
+            </phone:PanoramaItem>-->
         </phone:Panorama>
 
         <!-- Feedback overlay -->
         <ctrl:FeedbackOverlay x:Name="FeedbackOverlay"
                               Grid.RowSpan="2"
-                              FeedbackTo="alex.john.martin@gmail.com"
+                              FeedbackTo="alexmartin9999@hotmail.com"
                               ApplicationName="Calendar Tile"
                               CompanyName="Nocturnal Tendencies" Margin="0,-2,0,2"/>
 

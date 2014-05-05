@@ -15,6 +15,10 @@ using System.IO.IsolatedStorage;
 using System.Globalization;
 using Microsoft.Phone.Tasks;
 using RateMyApp.Helpers;
+using BugSense;
+using System.Xml.Linq;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 //drawing on a writeable bitmap - toolkit with extension methods for WriteableBitmap
 //http://writeablebitmapex.codeplex.com/
@@ -35,83 +39,32 @@ namespace CalendarTile
         PeriodicTask periodicTask;
         string periodicTaskName = "PeriodicAgent";
         public bool agentsAreEnabled = true;
+        private bool _loading = true;
 
-        // Constructor
         public MainPage()
         {
             InitializeComponent();
-
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
             Loaded += MainPage_Loaded;
-
-            DefaultTheColorSettings();
-            UpdateColorSettingControls();
         }
 
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            CreateImage();
-            UpdateTileData();
-            StartPeriodicAgent();
-
-            var tiles = ShellTile.ActiveTiles;
-            PlaceTileButton.Visibility = (tiles.Count() < 2) ? Visibility.Visible : Visibility.Collapsed;
+            BugSenseHandler.Instance.LeaveBreadCrumb("MainPage - loaded");
+            Dispatcher.BeginInvoke(() =>
+            {
+                CreateImage();
+                UpdateTileData();
+                var tiles = ShellTile.ActiveTiles;
+                PlaceTileButton.IsEnabled = (tiles.Count() < 2);
+                StartPeriodicAgent();
+            });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            string a = string.Empty;
-            string r = string.Empty;
-            string g = string.Empty;
-            string b = string.Empty;
-            string update = string.Empty;
-            if (NavigationContext.QueryString.TryGetValue("a", out a) &&
-                NavigationContext.QueryString.TryGetValue("r", out r) &&
-                NavigationContext.QueryString.TryGetValue("g", out g) &&
-                NavigationContext.QueryString.TryGetValue("b", out b) &&
-                NavigationContext.QueryString.TryGetValue("update", out update))
-            {
-                var color = Color.FromArgb(byte.Parse(a, NumberStyles.HexNumber), 
-                                           byte.Parse(r, NumberStyles.HexNumber), 
-                                           byte.Parse(g, NumberStyles.HexNumber), 
-                                           byte.Parse(b, NumberStyles.HexNumber));
-                switch (update)
-                {
-                    case "primary":
-                        IsolatedStorageSettings.ApplicationSettings["PrimaryColor"] = color;
-                        PrimaryColorRectangle.Fill = new SolidColorBrush(color);
-                        break;
-                    case "secondary":
-                        IsolatedStorageSettings.ApplicationSettings["SecondaryColor"] = color;
-                        SecondaryColorRectangle.Fill = new SolidColorBrush(color);
-                        break;
-                    case "background":
-                        IsolatedStorageSettings.ApplicationSettings["BackgroundColor"] = color;
-                        BackgroundColorRectangle.Fill = new SolidColorBrush(color);
-                        break;
-                }
-                IsolatedStorageSettings.ApplicationSettings.Save(); 
-            }
-        }
-
-        public void TwitterButton_Click(object sender, EventArgs e)
-        {
-            var task = new WebBrowserTask
-            {
-                Uri = new Uri("https://twitter.com/AlexJohnMartin", UriKind.Absolute)
-            };
-            task.Show();
-        }
-
-        public void StoreButton_Click(object sender, EventArgs e)
-        {
-            var currentCulture = System.Threading.Thread.CurrentThread.CurrentCulture;
-            var task = new WebBrowserTask
-            {
-                Uri = new Uri(string.Format("http://www.windowsphone.com/{0}/store/publishers?publisherId=nocturnal%2Btendencies&appId=63cb6767-4940-4fa1-be8c-a7f58e455c3b", currentCulture.Name), UriKind.Absolute)
-            };
-            task.Show();
+            BugSenseHandler.Instance.LeaveBreadCrumb("MainPage - navigated to");
+            UpdateButtonColor();
+            DefaultSettings();
         }
 
         public void ReviewButton_Click(object sender, EventArgs e)
@@ -124,6 +77,7 @@ namespace CalendarTile
         public void EmailButton_Click(object sender, EventArgs e)
         {
             var email = new EmailComposeTask();
+            email.To = "alexmartin9999@hotmail.com";
             email.Subject = "Feedback for the Calendar Tile application";
             email.Show();
         }
@@ -135,33 +89,62 @@ namespace CalendarTile
             PutTileOnHomeScreen();
         }
 
-        private void ChangeBackgroundButton_Click(object sender, RoutedEventArgs e)
+        private void AppButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=background", UriKind.Relative));
+            BugSenseHandler.Instance.LeaveBreadCrumb("MainPage - other app...");
+            var button = (Button)sender;
+            var task = new MarketplaceDetailTask();
+            task.ContentIdentifier = button.Tag.ToString();
+            BugSenseHandler.Instance.LeaveBreadCrumb("MainPage - ..." + button.Tag.ToString());
+            task.ContentType = MarketplaceContentType.Applications;
+            task.Show();
         }
 
-        private void ChangePrimaryColorButton_Click(object sender, RoutedEventArgs e)
+        private void PinButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=primary", UriKind.Relative));
+            BugSenseHandler.Instance.LeaveBreadCrumb("MainPage - pin to home screen");
+            var tile = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("MainPage.xaml"));
+            if (tile == null) ShellTile.Create(new Uri("/MainPage.xaml?test=true", UriKind.Relative), GetTileData(), true);
         }
 
-        private void ChangeSecondaryColorButton_Click(object sender, RoutedEventArgs e)
+        private void FirstDowList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ColorPage.xaml?update=secondary", UriKind.Relative));
+            if (!_loading)
+            {
+                var item = (ListPickerItem)((ListPicker)sender).SelectedItem;
+                IsolatedStorageSettings.ApplicationSettings["FirstDayOfWeek"] = item.Tag.ToString();
+                IsolatedStorageSettings.ApplicationSettings.Save();
+                CreateImage();
+                UpdateTileData();
+            }
         }
 
         private void CreateImage()
         {
+            BugSenseHandler.Instance.LeaveBreadCrumb("MainPage - create image");
             var renderer = new CalendarRenderer();
-            var primarycolor = (Color)IsolatedStorageSettings.ApplicationSettings["PrimaryColor"];
-            var secondarycolor = (Color)IsolatedStorageSettings.ApplicationSettings["SecondaryColor"];
-            var backgorundcolor = (Color)IsolatedStorageSettings.ApplicationSettings["BackgroundColor"];
-            renderer.DrawCalendar(336, 336, primarycolor, secondarycolor, backgorundcolor, 20, "calendar.png");
-            renderer.DrawCalendar(691, 336, primarycolor, secondarycolor, backgorundcolor, 20, "calendar-wide.png");
+            Color primarycolor;
+            Color secondarycolor;
+            Color backgroundcolor;
+            GetColorsFromSettings(out primarycolor, out secondarycolor, out backgroundcolor);
+            CalendarImage.Source = renderer.DrawCalendar(730, 365, primarycolor, secondarycolor, backgroundcolor, 20, null);
+            renderer.DrawCalendar(691, 336, primarycolor, secondarycolor, backgroundcolor, 20, "calendar-wide.png");
+            renderer.DrawCalendar(336, 336, primarycolor, secondarycolor, backgroundcolor, 20, "calendar.png");
+        }
+
+        private static void GetColorsFromSettings(out Color primarycolor, out Color secondarycolor, out Color backgroundcolor)
+        {
+            Visibility dbgisibility = (Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"];
+            primarycolor = dbgisibility == Visibility.Visible ? 
+                new Color() { A = 255, R = 255, G = 255, B = 255 } :
+                new Color() { A = 255, R = 0, G = 0, B = 0 };
+            secondarycolor = (Color)Application.Current.Resources["PhoneAccentColor"];
+            backgroundcolor = new Color() { A = 0, R = 0, G = 0, B = 0 };
         }
 
         private void UpdateTileData()
         {
+            BugSenseHandler.Instance.LeaveBreadCrumb("MainPage - update tile data");
             var tiles = ShellTile.ActiveTiles;
             foreach (var tile in tiles)
             {
@@ -171,6 +154,7 @@ namespace CalendarTile
 
         private void PutTileOnHomeScreen()
         {
+            BugSenseHandler.Instance.LeaveBreadCrumb("MainPage - put tile on home screen");
             ShellTile.Create(new Uri("/MainPage.xaml", UriKind.Relative), GetTileData(), true); 
         }
 
@@ -182,22 +166,6 @@ namespace CalendarTile
             data.Title = DateTime.Now.ToString("MMMM");
             return data; 
         }
-
-        // Sample code for building a localized ApplicationBar
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // Set the page's ApplicationBar to a new instance of ApplicationBar.
-        //    ApplicationBar = new ApplicationBar();
-
-        //    // Create a new button and set the text value to the localized string from AppResources.
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
-
-        //    // Create a new menu item with the localized string from AppResources.
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
 
         private void StartPeriodicAgent()
         {
@@ -248,22 +216,39 @@ namespace CalendarTile
             }
         }
 
-        private void DefaultTheColorSettings()
+        private void UpdateButtonColor()
         {
-            if (!IsolatedStorageSettings.ApplicationSettings.Contains("BackgroundColor"))
-            {
-                IsolatedStorageSettings.ApplicationSettings.Add("PrimaryColor", Colors.White);
-                IsolatedStorageSettings.ApplicationSettings.Add("SecondaryColor", Colors.Black);
-                IsolatedStorageSettings.ApplicationSettings.Add("BackgroundColor", (Color)Application.Current.Resources["PhoneAccentColor"]);
-                IsolatedStorageSettings.ApplicationSettings.Save();
-            }
+            VersionTextBox.Text = "v" + XDocument.Load("WMAppManifest.xml").Root.Element("App").Attribute("Version").Value;
+            ReviewButton.Background = new SolidColorBrush((System.Windows.Media.Color)Application.Current.Resources["PhoneAccentColor"]);
+            EmailButton.Background = new SolidColorBrush((System.Windows.Media.Color)Application.Current.Resources["PhoneAccentColor"]);
         }
 
-        private void UpdateColorSettingControls()
+        private void DefaultSettings()
         {
-            PrimaryColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["PrimaryColor"]);
-            SecondaryColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["SecondaryColor"]);
-            BackgroundColorRectangle.Fill = new SolidColorBrush((Color)IsolatedStorageSettings.ApplicationSettings["BackgroundColor"]);
+            var dow = "0";
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("FirstDayOfWeek"))
+            {
+                MessageBox.Show("setting FirstDayOfWeek");
+                IsolatedStorageSettings.ApplicationSettings.Add("FirstDayOfWeek", dow);
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+            else
+            {
+                dow = IsolatedStorageSettings.ApplicationSettings["FirstDayOfWeek"].ToString();
+                MessageBox.Show("getting FirstDayOfWeek - " + dow);
+            }
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                switch (dow)
+                {
+                    case "0": FirstDowList.SelectedIndex = 1; break;
+                    case "1": FirstDowList.SelectedIndex = 2; break;
+                    case "6": FirstDowList.SelectedIndex = 0; break;
+                }
+            });
+            FirstDowList.IsEnabled = true;
+            _loading = false;
         }
     }
 }

@@ -61,6 +61,15 @@ namespace CalendarTile.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Credits.
+        /// </summary>
+        public static string AboutButtonCredits {
+            get {
+                return ResourceManager.GetString("AboutButtonCredits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string AboutButtonEmail {
@@ -151,7 +160,43 @@ namespace CalendarTile.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Place tile on home screen.
+        ///   Looks up a localized string similar to Monday.
+        /// </summary>
+        public static string DayOfWeekMonday {
+            get {
+                return ResourceManager.GetString("DayOfWeekMonday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saturday.
+        /// </summary>
+        public static string DayOfWeekSaturday {
+            get {
+                return ResourceManager.GetString("DayOfWeekSaturday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sunday.
+        /// </summary>
+        public static string DayOfWeekSunday {
+            get {
+                return ResourceManager.GetString("DayOfWeekSunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other apps.
+        /// </summary>
+        public static string OtherAppsHeader {
+            get {
+                return ResourceManager.GetString("OtherAppsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pin tile on home screen.
         /// </summary>
         public static string PlaceTileButton {
             get {

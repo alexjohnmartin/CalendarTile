@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Media;
+﻿//using BugSense;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -20,8 +21,9 @@ namespace CalendarTileScheduledTaskAgent
         private const int marginBottom = 60;
         private const int textmargin = 5;
 
-        public void DrawCalendar(int width, int height, Color color, Color alternateColor, Color backgroundColor, int fontSize, string filename)
+        public WriteableBitmap DrawCalendar(int width, int height, Color color, Color alternateColor, Color backgroundColor, int fontSize, string filename)
         {
+            //BugSenseHandler.Instance.LeaveBreadCrumb("Calendar renderer - draw calendar");
             var now = DateTime.Now;
             
             var bitmap = new WriteableBitmap(width, height); 
@@ -55,12 +57,12 @@ namespace CalendarTileScheduledTaskAgent
             bitmap.Invalidate();
 
             //days of the week
-            int count = 0;
-            foreach (var dow in (DayOfWeek[])Enum.GetValues(typeof(DayOfWeek)))
+            var dowOffset = int.Parse(IsolatedStorageSettings.ApplicationSettings["FirstDayOfWeek"].ToString());
+            for (int count = 0; count < 7; count++)
             {
+                int dayNum = (count + dowOffset) % 7;
                 int left = margin + textmargin + count * cellWidth;
-                bitmap.DrawText(GetDayOfWeekAbbreviation(dow), color, fontSize, left + textmargin, margin + textmargin);
-                count++;
+                bitmap.DrawText(GetDayOfWeekAbbreviation(dayNum), color, fontSize, left + textmargin, margin + textmargin);
             }
 
             //date numbers
@@ -75,27 +77,31 @@ namespace CalendarTileScheduledTaskAgent
             bitmap.Invalidate();
 
             //save image
-            String strImageName = @"Shared\ShellContent\" + filename;
-            using (IsolatedStorageFile iso = IsolatedStorageFile.GetUserStoreForApplication())
+            if (!string.IsNullOrEmpty(filename))
             {
-                if (iso.FileExists(strImageName))
-                    iso.DeleteFile(strImageName);
-            }
-            using (IsolatedStorageFile iso = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                using (IsolatedStorageFileStream isostream = iso.CreateFile(strImageName))
+                String strImageName = @"Shared\ShellContent\" + filename;
+                using (IsolatedStorageFile iso = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    //(bitmap, isostream, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
-                    WriteableBitmapExtensionsPng.Encode(bitmap, isostream);
-                    isostream.Close();
+                    if (iso.FileExists(strImageName))
+                        iso.DeleteFile(strImageName);
+                }
+                using (IsolatedStorageFile iso = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    using (IsolatedStorageFileStream isostream = iso.CreateFile(strImageName))
+                    {
+                        WriteableBitmapExtensionsPng.Encode(bitmap, isostream);
+                        isostream.Close();
+                    }
                 }
             }
+            return bitmap;
         }
 
         private Coordinates GetDateCoords(DateTime date, int cellWidth, int cellHeight)
         {
+            var dowOffset = int.Parse(IsolatedStorageSettings.ApplicationSettings["FirstDayOfWeek"].ToString());
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            var cellOffset = firstDayOfMonth.DayOfWeek.GetHashCode() - 1;
+            var cellOffset = (firstDayOfMonth.DayOfWeek.GetHashCode() - dowOffset + 7)%7 - 1;
             var dayCellNumber = date.Day + cellOffset;
             var cellX = dayCellNumber % 7;
             var cellY = dayCellNumber / 7 + 1;
@@ -103,10 +109,10 @@ namespace CalendarTileScheduledTaskAgent
             return new Coordinates(margin + cellWidth*cellX, margin + cellHeight*cellY);
         }
 
-        private string GetDayOfWeekAbbreviation(DayOfWeek dow)
+        private string GetDayOfWeekAbbreviation(int dayNum)
         {
             var sunday = new DateTime(2014, 3, 2);
-            return sunday.AddDays(dow.GetHashCode()).ToString("ddd"); 
+            return sunday.AddDays(dayNum).ToString("ddd"); 
         }
     }
 

@@ -135,12 +135,18 @@
     <Content Include="Assets\About\appbar.email.png" />
     <Content Include="Assets\About\appbar.marketplace.png" />
     <Content Include="Assets\About\appbar.message.smiley.png" />
+    <Content Include="Assets\About\appbar.pin.png" />
     <Content Include="Assets\About\appbar.social.github.octocat.png" />
     <Content Include="Assets\About\appbar.social.github.octocat.solid.png" />
     <Content Include="Assets\About\appbar.social.linkedin.png" />
     <Content Include="Assets\About\appbar.social.linkedin.variant.png" />
     <Content Include="Assets\About\appbar.social.twitter.png" />
     <Content Include="Assets\app-icon.png" />
+    <Content Include="Assets\OtherApps\calendar-tile.png" />
+    <Content Include="Assets\OtherApps\meet-me-here.png" />
+    <Content Include="Assets\OtherApps\toonify.png" />
+    <Content Include="Assets\OtherApps\trail-mapper.png" />
+    <Content Include="Assets\OtherApps\your-music-shuffled.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -151,6 +157,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\small.png" />
+    <Content Include="BugSense\BugSense - SDK License Agreement.txt" />
+    <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">
@@ -159,7 +171,28 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="BugSense-WP8">
+      <HintPath>..\packages\BugSense.WP8.3.6.5.0\lib\wp8\BugSense-WP8.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RateMyApp">
+      <HintPath>..\packages\RateMyApp.1.1.0\lib\sl4-wp71\RateMyApp.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.20\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.20\lib\sl4-windowsphone71\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.20\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="WriteableBitmapExWinPhone">
       <HintPath>..\lib\WriteableBitmapExWinPhone.dll</HintPath>
     </Reference>
@@ -168,10 +201,6 @@
     <ProjectReference Include="..\CalendarTileScheduledTaskAgent\CalendarTileScheduledTaskAgent.csproj">
       <Project>{BB7807D1-A428-448F-A7FB-E84B5F90A0F4}</Project>
       <Name>CalendarTileScheduledTaskAgent</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RateMyApp\RateMyApp.csproj">
-      <Project>{83C47431-2793-48E3-A2FB-CC6702523314}</Project>
-      <Name>RateMyApp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

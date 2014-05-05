@@ -1,0 +1,5 @@
+change log
+
+1.0.3.0 - main released version
+1.1.0.0 - updated to work with background image on home screen (transparent background for tiles)
+1.2.0.0 - simplified color options, allow first day of week to be selected, links to other apps, fixed email-to address

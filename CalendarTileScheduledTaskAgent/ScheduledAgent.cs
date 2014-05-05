@@ -5,6 +5,8 @@ using System.Windows.Media;
 using Microsoft.Phone.Shell;
 using System;
 using System.IO.IsolatedStorage;
+using BugSense;
+using BugSense.Core.Model;
 
 namespace CalendarTileScheduledTaskAgent
 {
@@ -18,7 +20,8 @@ namespace CalendarTileScheduledTaskAgent
             // Subscribe to the managed exception handler
             Deployment.Current.Dispatcher.BeginInvoke(delegate
             {
-                Application.Current.UnhandledException += UnhandledException;
+                BugSenseHandler.Instance.StartSession();
+                //Application.Current.UnhandledException += UnhandledException;
             });
         }
 
@@ -45,19 +48,47 @@ namespace CalendarTileScheduledTaskAgent
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                var renderer = new CalendarRenderer(); 
-                var primarycolor = (Color)IsolatedStorageSettings.ApplicationSettings["PrimaryColor"];
-                var secondarycolor = (Color)IsolatedStorageSettings.ApplicationSettings["SecondaryColor"];
-                var backgorundcolor = (Color)IsolatedStorageSettings.ApplicationSettings["BackgroundColor"];
-                renderer.DrawCalendar(336, 336, primarycolor, secondarycolor, backgorundcolor, 20, "calendar.png");
-                renderer.DrawCalendar(691, 336, primarycolor, secondarycolor, backgorundcolor, 20, "calendar-wide.png");
+                BugSenseHandler.Instance.LeaveBreadCrumb("ScheduledAgent - on invoke");
+                var renderer = new CalendarRenderer();
+                Color primarycolor;
+                Color secondarycolor;
+                Color backgroundcolor;
+                GetColorsFromSettings(out primarycolor, out secondarycolor, out backgroundcolor);
+                renderer.DrawCalendar(336, 336, primarycolor, secondarycolor, backgroundcolor, 20, "calendar.png");
+                renderer.DrawCalendar(691, 336, primarycolor, secondarycolor, backgroundcolor, 20, "calendar-wide.png");
                 var tiles = ShellTile.ActiveTiles;
                 foreach (var tile in tiles)
                 {
+                    BugSenseHandler.Instance.LeaveBreadCrumb("ScheduledAgent - update tile");
                     tile.Update(GetTileData());
                 }
                 NotifyComplete();
             });
+        }
+
+        private static void GetColorsFromSettings(out Color primarycolor, out Color secondarycolor, out Color backgroundcolor)
+        {
+            primarycolor = new Color()
+            {
+                A = byte.Parse(IsolatedStorageSettings.ApplicationSettings["PrimaryColorA"].ToString()),
+                R = byte.Parse(IsolatedStorageSettings.ApplicationSettings["PrimaryColorR"].ToString()),
+                G = byte.Parse(IsolatedStorageSettings.ApplicationSettings["PrimaryColorG"].ToString()),
+                B = byte.Parse(IsolatedStorageSettings.ApplicationSettings["PrimaryColorB"].ToString()),
+            };
+            secondarycolor = new Color()
+            {
+                A = byte.Parse(IsolatedStorageSettings.ApplicationSettings["SecondaryColorA"].ToString()),
+                R = byte.Parse(IsolatedStorageSettings.ApplicationSettings["SecondaryColorR"].ToString()),
+                G = byte.Parse(IsolatedStorageSettings.ApplicationSettings["SecondaryColorG"].ToString()),
+                B = byte.Parse(IsolatedStorageSettings.ApplicationSettings["SecondaryColorB"].ToString()),
+            };
+            backgroundcolor = new Color()
+            {
+                A = byte.Parse(IsolatedStorageSettings.ApplicationSettings["BackgroundColorA"].ToString()),
+                R = byte.Parse(IsolatedStorageSettings.ApplicationSettings["BackgroundColorR"].ToString()),
+                G = byte.Parse(IsolatedStorageSettings.ApplicationSettings["BackgroundColorG"].ToString()),
+                B = byte.Parse(IsolatedStorageSettings.ApplicationSettings["BackgroundColorB"].ToString()),
+            };
         }
 
         private ShellTileData GetTileData()

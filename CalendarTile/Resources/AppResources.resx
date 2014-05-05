@@ -135,7 +135,7 @@
     <value>Menu Item</value>
   </data>
   <data name="PlaceTileButton" xml:space="preserve">
-    <value>Place tile on home screen</value>
+    <value>Pin tile on home screen</value>
   </data>
   <data name="AboutButtonEmail" xml:space="preserve">
     <value>Email</value>
@@ -172,5 +172,20 @@
   </data>
   <data name="AboutDescription" xml:space="preserve">
     <value>Put a live tile on your home screen with this month's calendar. Customize the colors to suit your phone.</value>
+  </data>
+  <data name="AboutButtonCredits" xml:space="preserve">
+    <value>Credits</value>
+  </data>
+  <data name="OtherAppsHeader" xml:space="preserve">
+    <value>Other apps</value>
+  </data>
+  <data name="DayOfWeekMonday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="DayOfWeekSaturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="DayOfWeekSunday" xml:space="preserve">
+    <value>Sunday</value>
   </data>
 </root>

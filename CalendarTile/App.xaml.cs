@@ -7,6 +7,8 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using CalendarTile.Resources;
+using BugSense;
+using BugSense.Core.Model;
 
 namespace CalendarTile
 {
@@ -23,8 +25,11 @@ namespace CalendarTile
         /// </summary>
         public App()
         {
+            // Initialize BugSense
+            BugSenseHandler.Instance.InitAndStartSession(new ExceptionManager(Current), RootFrame, "259b12f3");
+            BugSenseHandler.Instance.LeaveBreadCrumb("App initialize");
             // Global handler for uncaught exceptions.
-            UnhandledException += Application_UnhandledException;
+            //UnhandledException += Application_UnhandledException;
 
             // Standard XAML initialization
             InitializeComponent();
