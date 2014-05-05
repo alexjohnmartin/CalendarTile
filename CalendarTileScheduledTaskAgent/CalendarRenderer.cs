@@ -1,5 +1,4 @@
-﻿//using BugSense;
-using Microsoft.Xna.Framework.Media;
+﻿using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -23,7 +22,6 @@ namespace CalendarTileScheduledTaskAgent
 
         public WriteableBitmap DrawCalendar(int width, int height, Color color, Color alternateColor, Color backgroundColor, int fontSize, string filename)
         {
-            //BugSenseHandler.Instance.LeaveBreadCrumb("Calendar renderer - draw calendar");
             var now = DateTime.Now;
             
             var bitmap = new WriteableBitmap(width, height); 
