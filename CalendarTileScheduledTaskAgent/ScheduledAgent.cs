@@ -63,27 +63,12 @@ namespace CalendarTileScheduledTaskAgent
 
         private static void GetColorsFromSettings(out Color primarycolor, out Color secondarycolor, out Color backgroundcolor)
         {
-            primarycolor = new Color()
-            {
-                A = byte.Parse(IsolatedStorageSettings.ApplicationSettings["PrimaryColorA"].ToString()),
-                R = byte.Parse(IsolatedStorageSettings.ApplicationSettings["PrimaryColorR"].ToString()),
-                G = byte.Parse(IsolatedStorageSettings.ApplicationSettings["PrimaryColorG"].ToString()),
-                B = byte.Parse(IsolatedStorageSettings.ApplicationSettings["PrimaryColorB"].ToString()),
-            };
-            secondarycolor = new Color()
-            {
-                A = byte.Parse(IsolatedStorageSettings.ApplicationSettings["SecondaryColorA"].ToString()),
-                R = byte.Parse(IsolatedStorageSettings.ApplicationSettings["SecondaryColorR"].ToString()),
-                G = byte.Parse(IsolatedStorageSettings.ApplicationSettings["SecondaryColorG"].ToString()),
-                B = byte.Parse(IsolatedStorageSettings.ApplicationSettings["SecondaryColorB"].ToString()),
-            };
-            backgroundcolor = new Color()
-            {
-                A = byte.Parse(IsolatedStorageSettings.ApplicationSettings["BackgroundColorA"].ToString()),
-                R = byte.Parse(IsolatedStorageSettings.ApplicationSettings["BackgroundColorR"].ToString()),
-                G = byte.Parse(IsolatedStorageSettings.ApplicationSettings["BackgroundColorG"].ToString()),
-                B = byte.Parse(IsolatedStorageSettings.ApplicationSettings["BackgroundColorB"].ToString()),
-            };
+            Visibility dbgisibility = (Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"];
+            primarycolor = dbgisibility == Visibility.Visible ?
+                new Color() { A = 255, R = 255, G = 255, B = 255 } :
+                new Color() { A = 255, R = 0, G = 0, B = 0 };
+            secondarycolor = (System.Windows.Media.Color)Application.Current.Resources["PhoneAccentColor"];
+            backgroundcolor = new Color() { A = 0, R = 0, G = 0, B = 0 };
         }
 
         private ShellTileData GetTileData()
