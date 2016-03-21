@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Phone.UserData;
 
 namespace CalendarTileScheduledTaskAgent
 {
@@ -20,16 +21,41 @@ namespace CalendarTileScheduledTaskAgent
         private const int marginBottom = 60;
         private const int textmargin = 5;
 
-        public WriteableBitmap DrawCalendar(int width, int height, Color color, Color alternateColor, Color backgroundColor, int fontSize, string filename)
+        public WriteableBitmap DrawCalendar(int width, int height, Color color, Color alternateColor, Color backgroundColor, int fontSize, int alternateFontSize, string filename, IEnumerable<Appointment> appointments = null)
         {
             var now = DateTime.Now;
             
             var bitmap = new WriteableBitmap(width, height); 
             bitmap.Clear(backgroundColor);
-            
+
             //draw grid...
             int cellWidth = ((width - (margin * 2)) / 7);
             int cellHeight = ((height - (margin + marginBottom)) / 7);
+
+            //highlight appointments
+            if (appointments != null)
+                foreach(var appointment in appointments)
+                {
+                    if (appointment.IsAllDayEvent)
+                    {
+                        var highlight = Colors.Blue;
+                        switch (appointment.Status)
+                        {
+                            case AppointmentStatus.Busy:
+                                highlight = Colors.Red;
+                                break;
+                            case AppointmentStatus.Free:
+                                highlight = Colors.Green;
+                                break;
+                            case AppointmentStatus.Tentative:
+                                highlight = Colors.Purple;
+                                break;
+                        }
+                        var dayCoords = GetDateCoords(appointment.StartTime, cellWidth, cellHeight);
+                        bitmap.FillRectangle(dayCoords.X, dayCoords.Y, dayCoords.X + cellWidth, dayCoords.Y + cellHeight, highlight);
+                        bitmap.Invalidate();
+                    }
+                }
 
             //horizontal lines
             int maxWidth = margin + 7 * cellWidth;
@@ -51,8 +77,9 @@ namespace CalendarTileScheduledTaskAgent
 
             //highlight current day cell
             var coords = GetDateCoords(now, cellWidth, cellHeight);
-            bitmap.FillRectangle(coords.X, coords.Y, coords.X + cellWidth, coords.Y + cellHeight, color);
-            bitmap.Invalidate();
+            //bitmap.FillRectangle(coords.X, coords.Y, coords.X + cellWidth, coords.Y + cellHeight, color);
+            //bitmap.FillEllipseCentered(coords.X + (int)(cellWidth /1.7), coords.Y + cellHeight/2, cellHeight/4, cellHeight/4, color);
+            //bitmap.Invalidate();
 
             //days of the week
             var dowOffset = int.Parse(IsolatedStorageSettings.ApplicationSettings["FirstDayOfWeek"].ToString());
@@ -69,7 +96,19 @@ namespace CalendarTileScheduledTaskAgent
                 var drawDate = new DateTime(now.Year, now.Month, d);
                 coords = GetDateCoords(drawDate, cellWidth, cellHeight);
                 var textColor = drawDate.Date == now.Date ? alternateColor : color;
-                bitmap.DrawText(d.ToString(CultureInfo.InvariantCulture), textColor, fontSize, coords.X + textmargin, coords.Y + textmargin);
+                var textSize = drawDate.Date == now.Date ? alternateFontSize : fontSize;
+                bitmap.DrawText(d.ToString(CultureInfo.InvariantCulture), textColor, textSize, coords.X + textmargin, coords.Y + textmargin);
+            }
+
+            bitmap.Invalidate();
+
+            //crosses in past day cells
+            for (int d = 1; d < now.Day; d++)
+            {
+                var drawDate = new DateTime(now.Year, now.Month, d);
+                coords = GetDateCoords(drawDate, cellWidth, cellHeight);
+                bitmap.DrawLine(coords.X, coords.Y, coords.X + cellWidth, coords.Y + cellHeight, color);
+                bitmap.DrawLine(coords.X, coords.Y + cellHeight, coords.X + cellWidth, coords.Y, color);
             }
 
             bitmap.Invalidate();

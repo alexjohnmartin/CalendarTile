@@ -5,6 +5,8 @@ using System.Windows.Media;
 using Microsoft.Phone.Shell;
 using System;
 using System.IO.IsolatedStorage;
+using Microsoft.Phone.UserData;
+using System.Threading;
 
 namespace CalendarTileScheduledTaskAgent
 {
@@ -43,22 +45,7 @@ namespace CalendarTileScheduledTaskAgent
         /// </remarks>
         protected override void OnInvoke(ScheduledTask task)
         {
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                var renderer = new CalendarRenderer();
-                Color primarycolor;
-                Color secondarycolor;
-                Color backgroundcolor;
-                GetColorsFromSettings(out primarycolor, out secondarycolor, out backgroundcolor);
-                renderer.DrawCalendar(336, 336, primarycolor, secondarycolor, backgroundcolor, 20, "calendar.png");
-                renderer.DrawCalendar(691, 336, primarycolor, secondarycolor, backgroundcolor, 20, "calendar-wide.png");
-                var tiles = ShellTile.ActiveTiles;
-                foreach (var tile in tiles)
-                {
-                    tile.Update(GetTileData());
-                }
-                NotifyComplete();
-            });
+            GetAppointments();
         }
 
         private static void GetColorsFromSettings(out Color primarycolor, out Color secondarycolor, out Color backgroundcolor)
@@ -78,6 +65,48 @@ namespace CalendarTileScheduledTaskAgent
             data.WideBackgroundImage = new Uri(@"isostore:/Shared/ShellContent/calendar-wide.png");
             data.Title = DateTime.Now.ToString("MMMM");
             return data;
+        }
+
+        private void GetAppointments()
+        {
+            var appts = new Appointments();
+
+            appts.SearchCompleted += new EventHandler<AppointmentsSearchEventArgs>(Appointments_SearchCompleted);
+
+            DateTime start = DateTime.Now;
+            DateTime end = start.AddDays(31);
+
+            appts.SearchAsync(start, end, 50, "Appointments Test #1");
+        }
+
+        void Appointments_SearchCompleted(object sender, AppointmentsSearchEventArgs e)
+        {
+            ThreadPool.QueueUserWorkItem(o => {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    try
+                    {
+                        var renderer = new CalendarRenderer();
+                        Color primarycolor;
+                        Color secondarycolor;
+                        Color backgroundcolor;
+                        GetColorsFromSettings(out primarycolor, out secondarycolor, out backgroundcolor);
+                        renderer.DrawCalendar(336, 336, primarycolor, secondarycolor, backgroundcolor, 20, 28, "calendar.png", e.Results);
+                        renderer.DrawCalendar(691, 336, primarycolor, secondarycolor, backgroundcolor, 20, 28, "calendar-wide.png", e.Results);
+                        var tiles = ShellTile.ActiveTiles;
+                        foreach (var tile in tiles)
+                        {
+                            tile.Update(GetTileData());
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //TODO:log exception
+
+                    }
+                    NotifyComplete();
+                });
+            });
         }
     }
 }
